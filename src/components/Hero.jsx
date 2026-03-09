@@ -141,10 +141,10 @@ export default function Hero() {
     scene.add(ringGroup);
 
     // Core ring only — no outer bloom
-    const torusMesh = new THREE.Mesh(
-      new THREE.TorusGeometry(2.3, 0.048, 32, 220),
-      new THREE.MeshBasicMaterial({ color: 0xff2d55 })
-    );
+    // const torusMesh = new THREE.Mesh(
+    //   new THREE.TorusGeometry(2.3, 0.048, 32, 220),
+    //   new THREE.MeshBasicMaterial({ color: 0xff2d55 })
+    // );
     // ringGroup.add(torusMesh);
 
     // Inner thin accent ring
