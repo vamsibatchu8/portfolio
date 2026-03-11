@@ -59,9 +59,3 @@ src/
 - 📊 Animated skill progress bars
 - 📬 Contact form
 - 💾 Download CV button
-
-## Customisation
-
-- Replace the "VB" initials in `About.jsx` with your actual photo: set the `src` in the `<img>` tag
-- Add your actual project links in `Projects.jsx`
-- Place your `Vamsi_Resume_2026.pdf` in the `public/` folder for the Download CV button to work
