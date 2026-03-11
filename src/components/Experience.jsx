@@ -275,7 +275,7 @@ export default function Experience() {
                       flexShrink: 0,
                     }}
                   />
-                  <Typography sx={{ color: '#aaaaaa', fontSize: '0.88rem', lineHeight: 1.7 }}>
+                  <Typography sx={{ color: '#fff3f3', fontSize: '0.88rem', lineHeight: 1.7 }}>
                     {point}
                   </Typography>
                 </Box>

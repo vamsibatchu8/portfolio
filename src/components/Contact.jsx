@@ -1,10 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Box, Typography, Button, Grid, TextField, Alert, Snackbar } from '@mui/material';
+import { Box, Typography, Button, Grid, TextField, Alert, Snackbar, CircularProgress } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import SendIcon from '@mui/icons-material/Send';
+import emailjs from '@emailjs/browser';
+
+// ─── Replace these with your actual EmailJS credentials ───────────────────────
+const EMAILJS_SERVICE_ID  = 'service_eiqxsdn';
+const EMAILJS_TEMPLATE_ID = 'template_rcoka5q';
+const EMAILJS_PUBLIC_KEY  = 'PDiA-uFR3fmM5uwrc';
+// ──────────────────────────────────────────────────────────────────────────────
 
 const contactInfo = [
   {
@@ -39,9 +46,10 @@ const contactInfo = [
 
 export default function Contact() {
   const sectionRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [snack, setSnack] = useState(false);
+  const [visible, setVisible]   = useState(false);
+  const [form, setForm]         = useState({ name: '', email: '', subject: '', message: '' });
+  const [snack, setSnack]       = useState({ open: false, severity: 'success', text: '' });
+  const [loading, setLoading]   = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -55,10 +63,35 @@ export default function Contact() {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = () => {
-    if (form.name && form.email && form.message) {
-      setSnack(true);
-      setForm({ name: '', email: '', subject: '', message: '' });
+    if (!form.name || !form.email || !form.message) {
+      setSnack({ open: true, severity: 'warning', text: 'Please fill in Name, Email, and Message.' });
+      return;
     }
+
+    setLoading(true);
+
+    emailjs
+      .send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name:  form.name,
+          from_email: form.email,
+          subject:    form.subject || '(No subject)',
+          message:    form.message,
+          to_email:   'vkbatchu8@gmail.com',
+        },
+        EMAILJS_PUBLIC_KEY
+      )
+      .then(() => {
+        setSnack({ open: true, severity: 'success', text: "Message sent! I'll get back to you soon." });
+        setForm({ name: '', email: '', subject: '', message: '' });
+      })
+      .catch((err) => {
+        console.error('EmailJS error:', err);
+        setSnack({ open: true, severity: 'error', text: 'Something went wrong. Please try again.' });
+      })
+      .finally(() => setLoading(false));
   };
 
   const inputSx = {
@@ -96,14 +129,7 @@ export default function Contact() {
           transition: 'all 0.8s ease',
         }}
       >
-        <Typography
-          sx={{
-            color: '#555',
-            fontSize: '0.9rem',
-            mb: 1,
-            letterSpacing: '0.1em',
-          }}
-        >
+        <Typography sx={{ color: '#555', fontSize: '0.9rem', mb: 1, letterSpacing: '0.1em' }}>
           Want to start a project?
         </Typography>
         <Typography
@@ -260,6 +286,7 @@ export default function Contact() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2.5,
+                marginTop:'45px'
               }}
             >
               <Grid container spacing={2}>
@@ -310,25 +337,35 @@ export default function Contact() {
                 variant="contained"
                 color="primary"
                 size="large"
-                endIcon={<SendIcon />}
+                endIcon={loading ? <CircularProgress size={18} color="inherit" /> : <SendIcon />}
                 onClick={handleSubmit}
+                disabled={loading}
                 sx={{ alignSelf: 'flex-start', px: 4, py: 1.5 }}
               >
-                Send Message
+                {loading ? 'Sending...' : 'Send Message'}
               </Button>
             </Box>
           </Grid>
         </Grid>
       </Box>
 
+      {/* Snackbar — success / warning / error */}
       <Snackbar
-        open={snack}
+        open={snack.open}
         autoHideDuration={4000}
-        onClose={() => setSnack(false)}
+        onClose={() => setSnack((s) => ({ ...s, open: false }))}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="success" onClose={() => setSnack(false)} sx={{ background: '#1a3a1a' }}>
-          Message sent successfully! I'll get back to you soon.
+        <Alert
+          severity={snack.severity}
+          onClose={() => setSnack((s) => ({ ...s, open: false }))}
+          sx={{
+            background: snack.severity === 'success' ? '#1a3a1a'
+                      : snack.severity === 'error'   ? '#3a1a1a'
+                      : '#3a3a1a',
+          }}
+        >
+          {snack.text}
         </Alert>
       </Snackbar>
     </Box>

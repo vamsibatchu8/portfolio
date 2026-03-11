@@ -10,8 +10,8 @@ const projects = [
     description:
       'Custom documentation portal built from scratch using Docusaurus on AWS Amplify, reducing documentation update cycle time by 60% and improving developer onboarding efficiency.',
     tags: ['Docusaurus', 'AWS Amplify', 'React.js', 'CI/CD'],
-    gradient: 'linear-gradient(135deg, #0a2a2a 0%, #0d3d3d 100%)',
-    accent: '#00d4aa',
+    gradient: 'linear-gradient(135deg, #3d0101 0%, #000000 100%)',
+    accent: '#d48300',
     icon: '📄',
   },
   {
@@ -20,8 +20,8 @@ const projects = [
     description:
       'Architected 5 user-friendly React.js modules for cloud SaaS platform with Redux state management, ensuring responsive design across desktop and mobile.',
     tags: ['React.js', 'Redux', 'REST APIs', 'Figma'],
-    gradient: 'linear-gradient(135deg, #1a0a2a 0%, #2d1050 100%)',
-    accent: '#9b59b6',
+    gradient: 'linear-gradient(135deg, #000000 0%, #3d0101 100%)',
+    accent: '#d48300',
     icon: '☁️',
   },
   {
@@ -30,7 +30,7 @@ const projects = [
     description:
       'Full-stack e-commerce web application using Angular with component architecture, reactive forms, and 9+ RESTful APIs with C#/.NET Core backend.',
     tags: ['Angular', 'C#', '.NET Core', 'SQL Server'],
-    gradient: 'linear-gradient(135deg, #1a1a0a 0%, #2d2d10 100%)',
+    gradient: 'linear-gradient(45deg, #3d0101 10%, #000000 100%)',
     accent: '#f39c12',
     icon: '🛒',
   },
@@ -40,8 +40,8 @@ const projects = [
     description:
       'Optimized data-heavy dashboard using React virtualization (react-window) and memoization techniques, reducing large-dataset render times by 40%.',
     tags: ['React.js', 'react-window', 'TypeScript', 'Webpack'],
-    gradient: 'linear-gradient(135deg, #0a1a2a 0%, #0d2d4d 100%)',
-    accent: '#3498db',
+    gradient: 'linear-gradient(85deg, #000000 0%, #3d0101 100%)',
+    accent: '#f39c12',
     icon: '📊',
   },
 ];
@@ -72,24 +72,6 @@ export default function Projects() {
         overflow: 'hidden',
       }}
     >
-      {/* Sideways label */}
-      <Typography
-        sx={{
-          position: 'absolute',
-          left: -30,
-          top: '50%',
-          transform: 'translateY(-50%) rotate(-90deg)',
-          fontFamily: "'Rajdhani', sans-serif",
-          fontSize: { xs: '2rem', md: '4rem' },
-          fontWeight: 800,
-          color: 'rgba(255,255,255,0.03)',
-          letterSpacing: '0.3em',
-          userSelect: 'none',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        PROJECTS
-      </Typography>
 
       {/* Section Header */}
       <Box
@@ -139,7 +121,7 @@ export default function Projects() {
                 opacity: visible ? 1 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(30px)',
                 transition: `all 0.6s ease ${idx * 0.1 + 0.2}s`,
-                border: `1px solid ${hovered === idx ? project.accent + '40' : 'rgba(255,255,255,0.06)'}`,
+                border: `1px solid ${hovered === idx ? project.accent + '40' : '#000'}`,
                 background: project.gradient,
                 height: 280,
               }}
